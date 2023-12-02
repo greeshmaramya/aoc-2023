@@ -15,38 +15,26 @@ fun main() {
     fun part1(input: List<String>): Int {
         val colorMap = mapOf("red" to 12, "green" to 13, "blue" to 14)
         var result = 0
-
-        input.games().forEach {
-            var c = true
-            for (cube in it.second) {
-                if (cube.second > colorMap[cube.first]!!) {
-                    c = false
-                    break
-                }
-            }
-            if (c) {
-                val gameNumber = it.first.replace("Game ", "").toIntOrNull()!!
-                //println(gameNumber)
+        input.games().forEach { (game, cubes) ->
+            if (!(cubes.any { it.second > colorMap[it.first]!! })) {
+                val gameNumber = game.replace("Game ", "").toIntOrNull()!!
                 result += gameNumber
             }
         }
-        println(result)
         return result
     }
 
     fun part2(input: List<String>): Int {
         val colorMaxCubeMap = mutableMapOf<String, Int>()
         var result = 0
-        input.games().forEach {(game, gameCubes) ->
-            for (cube in gameCubes){
-                if (cube.second > colorMaxCubeMap.getOrPut(cube.first) { 0 }){
+        input.games().forEach { (_, gameCubes) ->
+            for (cube in gameCubes) {
+                if (cube.second > colorMaxCubeMap.getOrPut(cube.first) { 0 }) {
                     colorMaxCubeMap[cube.first] = cube.second
                 }
             }
             var power = 1
-            colorMaxCubeMap.values.forEach {
-                power *= it
-            }
+            colorMaxCubeMap.values.forEach { power *= it }
             result += power
             colorMaxCubeMap.clear()
         }
