@@ -1,7 +1,9 @@
 fun main() {
     fun Char.isSpecial() = !this.isDigit() && this != '.'
-    val regex = Regex("([0-9]+)")
 
+    // "467..114.." -> [(0, [(467, 0..2), (114, 5..7)])...]
+    // number strings and their indices,
+    val regex = Regex("([0-9]+)")
     fun List<String>.numberRanges() = this.mapIndexed { strIndex, str ->
         Pair(
             strIndex,
@@ -16,6 +18,8 @@ fun main() {
         fun String.containsSpecialChar(range: IntRange) =
             this.substring(maxOf(0, range.first - 1), minOf(range.last + 2, input.first().length))
                 .any { it.isSpecial() }
+
+        input.numberRanges().println()
 
         return input.numberRanges().sumOf { (strIndex, numbersData) ->
             numbersData.filter { (_, range) ->
