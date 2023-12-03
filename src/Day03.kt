@@ -14,12 +14,9 @@ fun main() {
     }
 
     fun part1(input: List<String>): Int {
-
         fun String.containsSpecialChar(range: IntRange) =
             this.substring(maxOf(0, range.first - 1), minOf(range.last + 2, input.first().length))
                 .any { it.isSpecial() }
-
-        input.numberRanges().println()
 
         return input.numberRanges().sumOf { (strIndex, numbersData) ->
             numbersData.filter { (_, range) ->
