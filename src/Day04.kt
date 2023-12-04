@@ -33,8 +33,6 @@ fun main() {
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day04_test")
-    //check(part1(testInput) == 8)
-
     val input = readInput("Day04")
     part1(testInput).println()
     part1(input).println()
