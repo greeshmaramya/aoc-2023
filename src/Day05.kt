@@ -38,10 +38,9 @@ fun main() {
 
     fun part1(input: List<String>): Long {
         val (seeds, inputMaps) = input.maps()
-        var mini: Long = -1
+        var mini = Long.MAX_VALUE
         seeds.forEach {
             val location = findLocation(inputMaps, it, inputMaps.size - 1)
-            if (mini == (-1).toLong()) mini = location
             mini = min(mini, location)
         }
         return mini
@@ -49,12 +48,11 @@ fun main() {
 
     fun part2(input: List<String>): Long {
         val (seeds, inputMaps) = input.maps()
-        var mini: Long = -1
+        var mini = Long.MAX_VALUE
         val seeds2 = seeds.chunked(2).map { Pair(it.first(), it.last()) }
         seeds2.forEach { (seed, range) ->
             for (s in seed until seed + range) {
                 val location = findLocation(inputMaps, s, inputMaps.size - 1)
-                if (mini == (-1).toLong()) mini = location
                 mini = min(mini, location)
             }
         }
