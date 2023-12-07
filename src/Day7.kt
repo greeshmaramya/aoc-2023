@@ -3,8 +3,7 @@ fun main() {
         return when (toSet().size) {
             1 -> 7
             2 -> {
-                val f = this.first()
-                val c = this.count { it == f }
+                val c = this.count { it == first() }
                 if (c == 4 || c == 1) 6 else 5
             }
 
@@ -50,8 +49,7 @@ fun main() {
         return when (toSet().size) {
             1 -> 7
             2 -> if (contains('J')) 7 else {
-                val f = this.first()
-                val c = this.count { it == f }
+                val c = this.count { it == first() }
                 if (c == 4 || c == 1) 6 else 5
             }
 
@@ -101,6 +99,7 @@ fun main() {
 
     val input = readInput("Day07")
     val testInput = readInput("Day07_test")
+
     part1(testInput).println()
     part1(input).println()
     part2(testInput).println()
