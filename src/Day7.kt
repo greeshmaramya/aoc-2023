@@ -20,31 +20,6 @@ fun main() {
         }
     }
 
-    fun part1(input: List<String>): Int {
-        val cards = input.map {
-            Pair(
-                it.split(" ").first(),
-                it.split(" ").last()
-            )
-        }
-        val hands = cards.groupBy { it.first.value() }.toSortedMap()
-        val sorted = hands.values.map {
-            it.sortedBy { (hand, _) ->
-                hand.replace('A', 'E')
-                    .replace('T', 'A')
-                    .replace('J', 'B')
-                    .replace('Q', 'C')
-                    .replace('K', 'D').toInt(radix = 16) // convert as a hex string to sort the strings
-            }
-        }.flatten()
-
-        var winnings = 0
-        sorted.forEachIndexed { i, (_, bid) ->
-            winnings += ((i + 1) * bid.toInt())
-        }
-        return winnings
-    }
-
     fun String.valueWithJoker(): Int {
         return when (toSet().size) {
             1 -> 7
@@ -59,8 +34,8 @@ fun main() {
                     h[c] = h.getOrDefault(c, 0) + 1
                 }
                 val j = h.getOrDefault('J', 0)
-                h.remove('J')
                 if (j > 0) {
+                    h.remove('J')
                     val p = h.values.max() + j + 2
                     p
                 } else {
@@ -73,20 +48,21 @@ fun main() {
         }
     }
 
-    fun part2(input: List<String>): Int {
+    fun day7(input: List<String>, part1: Boolean): Int {
         val cards = input.map {
             Pair(
                 it.split(" ").first(),
                 it.split(" ").last()
             )
         }
-        val hands = cards.groupBy { it.first.valueWithJoker() }.toSortedMap()
+        val hands = cards.groupBy { if (part1) it.first.value() else it.first.valueWithJoker() }.toSortedMap()
         val sorted = hands.values.map {
             it.sortedBy { (hand, _) ->
                 hand.replace('A', 'E')
                     .replace('T', 'A')
                     .replace('Q', 'C')
-                    .replace('K', 'D').replace('J', '1').toInt(radix = 16) // J is least imp and use hex to sort
+                    .replace('K', 'D').replace('J', if (part1) 'B' else '1')  // J is the least imp in part 2
+                    .toInt(radix = 16) // and use hex to sort
             }
         }.flatten()
 
@@ -100,8 +76,8 @@ fun main() {
     val input = readInput("Day07")
     val testInput = readInput("Day07_test")
 
-    part1(testInput).println()
-    part1(input).println()
-    part2(testInput).println()
-    part2(input).println()
+    day7(testInput, part1 = true).println()
+    day7(input, part1 = true).println()
+    day7(testInput, part1 = false).println()
+    day7(input, part1 = false).println()
 }
